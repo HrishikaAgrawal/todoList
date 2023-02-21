@@ -2,12 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const _ = require('lodash');
+require('dotenv').config();
 
 const app = express();
 
 mongoose.set('strictQuery', false);
 
-mongoose.connect("mongodb+srv://hrishika:hris2012A@cluster0.jcqqfdk.mongodb.net/todolistDB");
+const mongodb_uri = process.env.MONGODB_URI;
+mongoose.connect(mongodb_uri);
 
 const itemsSchema = {
     name: String
@@ -163,6 +165,8 @@ app.get("/:customListName", function (req, res) {
 
 });
 
-app.listen(3000, function () {
-    console.log("Server started on port 3000");
+const port = process.env.port || 3000;
+
+app.listen(port, function () {
+    console.log("Server started on port " + port);
 });
